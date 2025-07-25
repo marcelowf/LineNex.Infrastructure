@@ -41,7 +41,7 @@ Siga estes passos para configurar seu ambiente de desenvolvimento:
 ##### ➡️ **Executando Localmente**  
 
 ```bash
-cd {Projeto}
+cd {Projeto.Foundation}
 az login
 az account show
 terraform init
