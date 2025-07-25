@@ -1,0 +1,10 @@
+name: LineNex-Terraform
+
+trigger: none
+
+extends:
+  template: ./templates/terraform-template.yml
+  parameters:
+    bkcontainer: "linenexstate"
+    tfWorkingDirectory: "Configuration.Terraform/Application.Foundation"
+    tfstateKey: "linenexstate.tfstate"

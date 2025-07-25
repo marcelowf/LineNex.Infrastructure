@@ -1,0 +1,10 @@
+name: LineNex-SelfHost
+
+trigger: none
+
+extends:
+  template: ./templates/terraform-template.yml
+  parameters:
+    bkcontainer: "selfhoststate"
+    tfWorkingDirectory: "Configuration.Terraform/Selfhost.Foundation"
+    tfstateKey: "selfhoststate.tfstate"

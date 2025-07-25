@@ -1,0 +1,116 @@
+parameters:
+  - name: bkcontainer
+    type: string
+  - name: tfWorkingDirectory
+    type: string
+  - name: tfstateKey
+    type: string
+
+variables:
+  - group: linenex-qa
+
+jobs:
+  - job: ApplyTerraform
+    displayName: "Run Terraform"
+    pool:
+      name: Azure Pipelines
+    steps:
+      - task: TerraformInstaller@1
+        displayName: "Terraform Install"
+        inputs:
+          terraformVersion: "1.6.6"
+
+      - task: AzureCLI@2
+        name: SetEnv
+        displayName: "Azure Terraform Variables"
+        inputs:
+          azureSubscription: $(service_connection_name)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            echo "##vso[task.setvariable variable=ARM_SUBSCRIPTION_ID]$(az account show --query id -o tsv)"
+            echo "##vso[task.setvariable variable=ARM_TENANT_ID]$(az account show --query tenantId -o tsv)"
+            echo "##vso[task.setvariable variable=ARM_CLIENT_ID]$(az account show --query user.name -o tsv)"
+
+      - task: Bash@3
+        displayName: "Local Terraform Variables"
+        inputs:
+          targetType: inline
+          workingDirectory: ${{ parameters.tfWorkingDirectory }}
+          script: |
+            DIR_NAME=$(basename "${{ parameters.tfWorkingDirectory }}")
+
+            if [[ "$DIR_NAME" == *"Application"* ]]; then
+              echo "subscription_id = \"$(subscription_id)\"" > linenex.auto.tfvars
+              echo "sql_server_admin_login = \"$(sql_server_admin_login)\"" >> linenex.auto.tfvars
+              echo "sql_server_admin_password = \"$(sql_server_admin_password)\"" >> linenex.auto.tfvars
+              echo "env_suffix = \"$(env_suffix)\"" >> linenex.auto.tfvars
+
+            elif [[ "$DIR_NAME" == *"Selfhost"* ]]; then
+              echo "subscription_id = \"$(subscription_id)\"" > linenex.auto.tfvars
+              echo "azure_devops_org = \"$(azure_devops_org)\"" >> linenex.auto.tfvars
+              echo "azure_devops_pat = \"$(azure_devops_pat)\"" >> linenex.auto.tfvars
+
+            else
+              exit 1
+            fi
+
+      - task: AzureCLI@2
+        displayName: "Terraform Init"
+        env:
+          ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        inputs:
+          workingDirectory: ${{ parameters.tfWorkingDirectory }}
+          azureSubscription: $(service_connection_name)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            terraform init \
+              -backend-config="resource_group_name=$(bkstrgrg)" \
+              -backend-config="storage_account_name=$(bkstrg)" \
+              -backend-config="container_name=${{ parameters.bkcontainer }}" \
+              -backend-config="key=${{ parameters.tfstateKey }}"
+
+      - task: AzureCLI@2
+        displayName: "Terraform Validate"
+        env:
+          ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        inputs:
+          workingDirectory: ${{ parameters.tfWorkingDirectory }}
+          azureSubscription: $(service_connection_name)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            terraform validate
+
+      - task: AzureCLI@2
+        displayName: "Terraform Plan"
+        env:
+          ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        inputs:
+          workingDirectory: ${{ parameters.tfWorkingDirectory }}
+          azureSubscription: $(service_connection_name)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            terraform plan
+
+      - task: AzureCLI@2
+        displayName: "Terraform Apply"
+        env:
+          ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        inputs:
+          workingDirectory: ${{ parameters.tfWorkingDirectory }}
+          azureSubscription: $(service_connection_name)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            terraform apply -auto-approve
