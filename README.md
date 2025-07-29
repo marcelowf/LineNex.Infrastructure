@@ -1,7 +1,7 @@
 <br>
 <br>
 <p align="center">
-  <a href="https://github.com/marcelowf/Svg-Icon-Repo/">
+  <a href="https://github.com/marcelowf/Personal-Icons/">
     <img loading="lazy" alt="LineNex" src="https://raw.githubusercontent.com/marcelowf/Personal-Icons/main/LineNexLogoCut.png" width="80%"/>
   </a>
 </p>
