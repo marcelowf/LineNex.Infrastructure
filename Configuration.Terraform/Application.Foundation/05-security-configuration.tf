@@ -92,7 +92,7 @@ resource "azurerm_key_vault_secret" "email_form" {
 
 resource "azurerm_key_vault_secret" "email_password" {
   name         = "EmailSettings--Password"
-  value        = "cueboapiuincxsdy"
+  value        = "ghekiapittgcxppy"
   key_vault_id = module.kv_qa.id
 }
 
