@@ -35,6 +35,7 @@ variable "subnets" {
       service_delegation_name    = string
       service_delegation_actions = list(string)
     }), null)
+    associate_nsg = optional(bool, false)
   }))
   default = {}
 }
@@ -44,3 +45,4 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+

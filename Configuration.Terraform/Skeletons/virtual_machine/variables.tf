@@ -27,3 +27,8 @@ variable "admin_username" {
   description = "Virtual machine Admin."
   type        = string
 }
+
+variable "admin_password" {
+  description = "Virtual machine Password."
+  type        = string
+}

@@ -1,6 +1,11 @@
 location                  = "East US 2"
 key_vault_public_access   = true
 
+sql_server_admin_password = "!1storagepejvsqfdbszxc9@"
+sql_server_admin_login = "cwbfinanceadmin"
+subscription_id = "b34c3bc7-cdaf-402a-aff2-d58434c78df0"
+env_suffix = "qa"
+
 tags = {
   owner               = "marcelo"
   project             = "linenex"

@@ -1,0 +1,41 @@
+# next-version: 1.0
+# mode: ContinuousDeployment
+# continuous-delivery-fallback-tag: ''
+# branches:
+#   master:
+#     regex: ^master$|^main$
+#     mode: ContinuousDeployment
+#     tag: 'beta'
+#     increment: Minor
+#     track-merge-target: true
+#     tracks-release-branches: true
+#     is-release-branch: false
+#     prevent-increment-of-merged-branch-version: false
+#   feature:
+#     regex: ^features?[/-]
+#     mode: ContinuousDeployment
+#     tag: alpha
+#     increment: Inherit
+#     prevent-increment-of-merged-branch-version: true
+#     is-release-branch: false
+#   release:
+#     regex: ^releases?[/-]
+#     mode: ContinuousDeployment
+#     tag: ''
+#     increment: Patch
+#     is-release-branch: true
+#     prevent-increment-of-merged-branch-version: true
+#   pull-request:
+#     regex: ^(pull|pull\-requests|pr|[0-9]+)[/-]
+#     mode: ContinuousDeployment
+#     tag: PullRequest
+#   bugfix:
+#     regex: ^bugfix(es)?[/-]|^hotfix(es)?[/-]
+#     mode: ContinuousDeployment
+#     tag: fix
+#     increment: Inherit
+#     prevent-increment-of-merged-branch-version: true
+#     is-release-branch: false
+#     source-branches: ['master', 'feature', 'release']
+# ignore:
+#   sha: []

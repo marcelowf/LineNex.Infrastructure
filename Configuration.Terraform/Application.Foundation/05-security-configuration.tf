@@ -24,20 +24,20 @@ module "kv_qa" {
       secret_permissions  = ["Get", "List"]
       storage_permissions = ["Get", "List"]
     },
-    # # Setando meu user azure como key-user
-    # {
-    #   object_id           = "XYZ"
-    #   key_permissions     = ["Get", "List", "Delete", "Purge", "Recover"]
-    #   secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
-    #   storage_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
-    # },
-    # # ObjectID do meu Service Connection (Para a pipeline poder criar os secrets)
-    # {
-    #   object_id           = "XYZ"
-    #   key_permissions     = ["Get", "List", "Delete", "Purge", "Recover"]
-    #   secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
-    #   storage_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
-    # },
+    # Setando meu user azure como key-user
+    {
+      object_id           = "de50d8e1-495e-4135-8cb4-a471808b0ed6"
+      key_permissions     = ["Get", "List", "Delete", "Purge", "Recover"]
+      secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+      storage_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+    },
+    # ObjectID do meu Service Connection (Para a pipeline poder criar os secrets)
+    {
+      object_id           = "d0a7ee2f-fbb2-4bf3-a94f-296192897d7d"
+      key_permissions     = ["Get", "List", "Delete", "Purge", "Recover"]
+      secret_permissions  = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+      storage_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover"]
+    },
   ]
 
   # public_network_access_enabled = var.key_vault_public_access
@@ -74,13 +74,13 @@ resource "azurerm_key_vault_secret" "jwt_secret_key" {
 
 resource "azurerm_key_vault_secret" "jwt_token_issuer" {
   name         = "JwtBearer--TokenIssuer"
-  value        = "<http://localhost:4000/>" # mudar isso
+  value        = "<http://localhost:4000/>" # mudar isso depois
   key_vault_id = module.kv_qa.id
 }
 
 resource "azurerm_key_vault_secret" "jwt_token_audience" {
   name         = "JwtBearer--TokenAudience"
-  value        = "<http://localhost:4000/>" # mudar isso
+  value        = "<http://localhost:4000/>" # mudar isso depois
   key_vault_id = module.kv_qa.id
 }
 
@@ -92,7 +92,7 @@ resource "azurerm_key_vault_secret" "email_form" {
 
 resource "azurerm_key_vault_secret" "email_password" {
   name         = "EmailSettings--Password"
-  value        = "ghekiapittgcxppy"
+  value        = "cueboapiuincxsdy"
   key_vault_id = module.kv_qa.id
 }
 

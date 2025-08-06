@@ -8,9 +8,9 @@ resource "azurerm_public_ip" "pip" {
   name                = "pip-self-host"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method = "Static"
-  sku               = "Basic"
-  tags = var.tags
+  allocation_method   = "Static"
+  sku                 = "Basic"
+  tags                = var.tags
 }
 
 resource "azurerm_network_interface" "nic_01" {
@@ -36,6 +36,7 @@ module "vm-01" {
   network_interface_ids = [azurerm_network_interface.nic_01.id]
   admin_username        = var.vm_admin_username
   size                  = "Standard_B4ms"
+  admin_password        = var.vm_admin_password
 }
 
 resource "azurerm_virtual_machine_extension" "install_selfhosted_agent" {

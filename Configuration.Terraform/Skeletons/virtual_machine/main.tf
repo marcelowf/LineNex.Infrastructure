@@ -5,6 +5,7 @@ locals {
   size                  = var.size
   network_interface_ids = var.network_interface_ids
   admin_username        = var.admin_username
+  admin_password        = var.admin_password
 }
 
 resource "tls_private_key" "vm_ssh" {
@@ -13,12 +14,14 @@ resource "tls_private_key" "vm_ssh" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm_linux" {
-  name                  = local.name
-  resource_group_name   = local.resource_group_name
-  location              = local.location
-  size                  = local.size
-  admin_username        = local.admin_username
-  network_interface_ids = local.network_interface_ids
+  name                            = local.name
+  resource_group_name             = local.resource_group_name
+  location                        = local.location
+  size                            = local.size
+  admin_username                  = local.admin_username
+  network_interface_ids           = local.network_interface_ids
+  admin_password                  = local.admin_password
+  disable_password_authentication = false
 
   admin_ssh_key {
     username   = local.admin_username
