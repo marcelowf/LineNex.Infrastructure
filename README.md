@@ -1,8 +1,8 @@
 <br>
 <br>
 <p align="center">
-  <a href="https://github.com/marcelowf/Svg-Icon-Repo/">
-    <img loading="lazy" alt="LineNex" src="https://raw.githubusercontent.com/marcelowf/Svg-Icon-Repo/main/LineNexLogoCut.png" width="80%"/>
+  <a href="https://github.com/marcelowf/Personal-Icons/">
+    <img loading="lazy" alt="LineNex" src="https://raw.githubusercontent.com/marcelowf/Personal-Icons/main/LineNexLogoCut.png" width="80%"/>
   </a>
 </p>
 <br>
@@ -14,7 +14,32 @@
 
 O LineNex Infrastructure é o componente responsável pela gestão da infraestrutura da aplicação LineNex. Ele automatiza a provisionamento, configuração e monitoramento dos recursos em nuvem e ambientes de execução, garantindo escalabilidade, segurança e consistência nas operações industriais.
 
----
+### 📚 Visão Geral
+
+Este projeto utiliza Terraform para provisionar:
+
+- App Service Plan
+- Web App
+- Static Web App
+- Storage Account
+- Key Vault
+- SQL Server
+- SQL Database
+- Virtual Network
+- Application Insights
+
+<p align="center">
+  <a href="https://github.com/marcelowf/Svg-Icon-Repo/">
+    <img loading="lazy" alt="Azure Infrastructure" src="https://raw.githubusercontent.com/marcelowf/Personal-Icons/main/LineNex/prints/AzureResourceGroup.png" width="100%"/>
+  </a>
+</p>
+  
+#### 🗂️ Estrutura da Infraestrutura
+
+A infraestrutura do LineNex é organizada para promover modularidade e reusabilidade. As principais pastas são:
+
+* **`Skeletons`**: Esta pasta armazena **templates de recursos de infraestrutura**. Cada subpasta dentro de `Skeletons` representa um modelo pré-configurado de um recurso comum, como uma rede virtual, um grupo de recursos ou um serviço específico. Isso agiliza o provisionamento e garante a padronização ao criar novos componentes.
+* **`.Foundation`**: Aqui reside a **estrutura principal do projeto de infraestrutura**. Esta pasta contém os arquivos Terraform (`.tf`) que orquestram a implantação dos recursos para a aplicação LineNex, utilizando, quando aplicável, os templates definidos em `Skeletons`. É o coração da configuração da infraestrutura específica do LineNex.
 
 #### 🔧 Pré-requisitos
 
@@ -22,8 +47,6 @@ O LineNex Infrastructure é o componente responsável pela gestão da infraestru
 - Azure CLI
 - Acesso a uma assinatura Azure
 - Git
-
----
 
 ## ⚙️ Configuração do Ambiente
 
@@ -41,7 +64,7 @@ Siga estes passos para configurar seu ambiente de desenvolvimento:
 ##### ➡️ **Executando Localmente**  
 
 ```bash
-cd {Projeto}
+cd {Projeto.Foundation}
 az login
 az account show
 terraform init
